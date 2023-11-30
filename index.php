@@ -1,3 +1,10 @@
+<?php
+if ($_GET['table'] != "") {
+    $table = $_GET['table'];
+}else{
+    $table = "Take Away";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +17,6 @@
         body {
             padding-bottom: 60px; /* Add padding to the bottom for the floating button */
         }
-
         .menu-item {
             border: 1px solid #ddd;
             padding: 10px;
@@ -19,22 +25,18 @@
             align-items: center;
             position: relative;
         }
-
         .menu-item img {
             max-width: 100px;
             margin-right: 10px;
         }
-
         .item-details {
             flex: 1;
         }
-
         .add-to-cart-btn {
             position: absolute;
             bottom: 5px;
             right: 5px;
         }
-
         #show-cart-btn {
             position: fixed;
             bottom: 15px;
@@ -43,9 +45,7 @@
         }
     </style>
 </head>
-
 <body>
-
     <div class="container mt-4">
 
         <h2>Menu</h2>
