@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Food Ordering System</title>
     <style>
-        /* Add your custom styles here */
         body {
             padding-bottom: 60px; /* Add padding to the bottom for the floating button */
         }
@@ -18,6 +17,7 @@
             margin-bottom: 10px;
             display: flex;
             align-items: center;
+            position: relative;
         }
 
         .menu-item img {
@@ -27,6 +27,12 @@
 
         .item-details {
             flex: 1;
+        }
+
+        .add-to-cart-btn {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
         }
 
         #show-cart-btn {
@@ -80,17 +86,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Sample menu data (you can replace this with your actual data)
         const menuData = [
-            { id: 1, name: 'Banana', price: 10, description: 'Description for Banana', image: 'https://via.placeholder.com/150' },
-            { id: 2, name: 'Fried Rice', price: 15, description: 'What the hell is Fried Rice, but i like it so much', image: 'https://via.placeholder.com/150' },
-            { id: 3, name: 'White Padi', price: 15, description: 'What the hell is Fried Rice, but i like it so much', image: 'https://via.placeholder.com/150' },
-            { id: 4, name: 'Blue Chicken', price: 15, description: 'What the hell is Fried Rice, but i like it so much', image: 'https://via.placeholder.com/150' },
-            { id: 5, name: 'Cassava', price: 15, description: 'What the hell is Fried Rice, but i like it so much', image: 'https://via.placeholder.com/150' },
+            { id: 1, title: 'Item 1', price: 10, description: 'Description for Item 1', image: 'https://via.placeholder.com/150' },
+            { id: 2, title: 'Item 2', price: 15, description: 'Description for Item 2', image: 'https://via.placeholder.com/150' },
             // Add more items as needed
         ];
 
-        // Function to render menu items
         function renderMenu() {
             const menuList = document.getElementById('menu-list');
 
@@ -98,44 +99,37 @@
                 const menuItem = document.createElement('div');
                 menuItem.classList.add('menu-item');
                 menuItem.innerHTML = `
-                    <img src="${item.image}" alt="${item.name}" class="img-fluid">
+                    <img src="${item.image}" alt="${item.title}" class="img-fluid">
                     <div class="item-details">
-                        <h4>${item.name}</h4>
+                        <h4>${item.title}</h4>
                         <p>${item.description}</p>
                         <p>$${item.price.toFixed(2)}</p>
                     </div>
-                    <button class="btn btn-success ml-auto" onclick="addToCart(${item.id})">Add to Cart</button>
+                    <button class="btn btn-success add-to-cart-btn" onclick="addToCart(${item.id})">+</button>
                 `;
                 menuList.appendChild(menuItem);
             });
         }
 
-        // Function to add item to cart
         function addToCart(itemId) {
-            // Check if the cart exists in local storage
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-            // Check if the item is already in the cart
             const existingItem = cart.find(item => item.id === itemId);
 
             if (existingItem) {
                 existingItem.quantity++;
             } else {
-                // If not, add it to the cart with quantity 1
                 const item = { id: itemId, quantity: 1 };
                 cart.push(item);
             }
 
-            // Save the updated cart to local storage
             localStorage.setItem('cart', JSON.stringify(cart));
         }
 
-        // Function to render cart items
         function renderCart() {
             const cartList = document.getElementById('cart-list');
             cartList.innerHTML = '';
 
-            // Retrieve the cart from local storage
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
             cart.forEach(item => {
@@ -146,13 +140,11 @@
             });
         }
 
-        // Event listener for show cart button
         document.getElementById('show-cart-btn').addEventListener('click', function () {
             renderCart();
-            $('#cartModal').modal('show'); // Show the cart modal
+            $('#cartModal').modal('show');
         });
 
-        // Initial rendering of the menu
         renderMenu();
     </script>
 
